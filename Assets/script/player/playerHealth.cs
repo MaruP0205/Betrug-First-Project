@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class playerHealth : MonoBehaviour
 {   
+    public static playerHealth instance;
     public float maxHealth;
     public float currentHealth;
     
@@ -12,9 +13,14 @@ public class playerHealth : MonoBehaviour
 
     public Slider playerHealthSlider; 
     public gameOver gameover;
-
+  
     public GameObject saved;
     // Start is called before the first frame update
+
+    void Awake(){
+        instance = this;
+    }
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -26,7 +32,7 @@ public class playerHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        playerHealthSlider.value = currentHealth;
     }
     public void addDamge(float damge){
         if (damge <= 0)
@@ -36,7 +42,7 @@ public class playerHealth : MonoBehaviour
         currentHealth -= damge;
         playerHealthSlider.value = currentHealth;
         if (currentHealth <= 0)
-        {
+        {   
             makeDead();
             gameover.Setup();
         }

@@ -5,34 +5,17 @@ using UnityEngine;
 public class cameraFollow : MonoBehaviour
 {
     public Transform target;
-    public float smoothing;
-
-    Vector3 offset;
-
-    [SerializeField] float lowY;
-    [SerializeField] float maxX, minX;
+    public float FollowSpeed = 2f;
+    public float yOffset = 1f;    
     
-    // Start is called before the first frame update
-    private void Start()
-    {
-        offset = transform.position - target.position;
-        
-    }
 
     // Update is called once per frame
-    private void FixedUpdate()
+    private void Update()
     {
-        Vector3 targetCamPos = target.position + offset;
+        Vector3 targetCamPos = new Vector3(target.position.x, target.position.y + yOffset, -10f);
 
-        transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
-        if (transform.position.y < lowY){
-            transform.position = new Vector3(transform.position.x, lowY, transform.position.z);
-        }
-        if(transform.position.x > maxX){
-            transform.position = new Vector3(maxX, transform.position.y, transform.position.z);
-        }
-        if(transform.position.x < minX){
-            transform.position = new Vector3(minX, transform.position.y, transform.position.z);
-        }
+        transform.position = Vector3.Lerp(transform.position, targetCamPos, FollowSpeed * Time.deltaTime);
+
     }
+
 }
